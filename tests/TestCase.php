@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Roelofr\SimplePayments\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -17,13 +19,6 @@ class TestCase extends Orchestra
         );
     }
 
-    protected function getPackageProviders($app)
-    {
-        return [
-            ServiceProvider::class,
-        ];
-    }
-
     public function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'sqlite');
@@ -37,5 +32,12 @@ class TestCase extends Orchestra
         include_once __DIR__.'/../database/migrations/create_simple_payments_table.php.stub';
         (new \CreatePackageTable())->up();
         */
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            ServiceProvider::class,
+        ];
     }
 }

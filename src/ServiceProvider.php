@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Roelofr\SimplePayments;
 
+use Roelofr\SimplePayments\Commands\SimplePaymentsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Roelofr\SimplePayments\Commands\SimplePaymentsCommand;
 
 class ServiceProvider extends PackageServiceProvider
 {
