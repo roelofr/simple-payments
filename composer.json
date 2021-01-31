@@ -7,7 +7,7 @@
         "payments"
     ],
     "homepage": "https://github.com/roelofr/simple-payments",
-    "license": "MIT",
+    "license": "LGPL-3.0",
     "authors": [
         {
             "name": "Roelof Roos",
