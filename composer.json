@@ -1,16 +1,17 @@
 {
-    "name": ":vendor_name/:package_name",
-    "description": ":package_description",
+    "name": "roelofr/simple-payments",
+    "description": "Simple payments library to add payment functionality to your Laravel project.",
     "keywords": [
-        ":vendor_name",
-        ":package_name"
+        "roelofr",
+        "simple-payments",
+        "payments"
     ],
-    "homepage": "https://github.com/:vendor_name/:package_name",
+    "homepage": "https://github.com/roelofr/simple-payments",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Roelof Roos",
+            "email": "github@roelof.io",
             "role": "Developer"
         }
     ],
@@ -26,13 +27,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src",
-            "Spatie\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Roelofr\\SimplePayments\\": "src",
+            "Roelofr\\SimplePayments\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Tests\\": "tests"
+            "Roelofr\\SimplePayments\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -46,10 +47,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\Skeleton\\SkeletonServiceProvider"
+                "Roelofr\\SimplePayments\\ServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "Spatie\\Skeleton\\SkeletonFacade"
+                "SimplePayments": "Roelofr\\SimplePayments\\SimplePaymentsFacade"
             }
         }
     },

@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Skeleton\Commands;
+namespace Roelofr\SimplePayments\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class SimplePaymentsCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'payments';
 
     public $description = 'My command';
 
