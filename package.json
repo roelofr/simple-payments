@@ -1,0 +1,16 @@
+{
+    "name": "@roelofr/easy-payments",
+    "scripts": {
+        "build": "npx mix build -p",
+        "dev": "npx mix build",
+        "watch": "npx mix watch"
+    },
+    "dependencies": {
+        "tailwindcss": "^2.0"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.2.4",
+        "laravel-mix": "^6.0",
+        "postcss": "^8.2.4"
+    }
+}
