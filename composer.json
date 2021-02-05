@@ -52,7 +52,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Roelofr\\SimplePayments\\ServiceProvider"
+                "Roelofr\\SimplePayments\\Providers\\ServiceProvider"
             ],
             "aliases": {
                 "SimplePayments": "Roelofr\\SimplePayments\\SimplePaymentsFacade"
