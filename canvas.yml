@@ -1,0 +1,27 @@
+preset: package
+
+namespace: Roelofr\SimplePayments
+user-auth-provider: App\User
+
+paths:
+  src: src
+  resource: resources
+
+factory:
+  path: database/factories
+
+migration:
+  path: database/migrations
+  prefix: ''
+
+console:
+  namespace: Roelofr\SimplePayments\Console
+
+model:
+  namespace: Roelofr\SimplePayments
+
+provider:
+  namespace: Roelofr\SimplePayments\Providers
+
+testing:
+  namespace: Roelofr\SimplePayments\Tests
