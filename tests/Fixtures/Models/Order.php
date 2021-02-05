@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Roelofr\SimplePayments\Tests;
+namespace Roelofr\SimplePayments\Tests\Fixtures\Models;
 
-class ExampleTest extends TestCase
+use Illuminate\Database\Eloquent\Model;
+
+class Order extends Model
 {
     /** */
     public function test_true_is_true()

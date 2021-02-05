@@ -18,6 +18,8 @@
     "require": {
         "php": "^7.4|^8.0",
         "illuminate/contracts": "^8.0",
+        "moneyphp/money": "^3.3",
+        "myclabs/php-enum": "^1.7",
         "spatie/laravel-package-tools": "^1.1"
     },
     "require-dev": {
