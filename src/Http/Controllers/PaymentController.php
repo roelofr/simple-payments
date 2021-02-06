@@ -11,7 +11,6 @@ class PaymentController extends Controller
 {
     public function show(Invoice $invoice): Response
     {
-        
     }
 
     public function start(Invoice $invoice, PaymentStartRequest $request): Response

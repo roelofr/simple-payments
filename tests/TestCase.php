@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Roelofr\SimplePayments\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Roelofr\SimplePayments\ServiceProvider;
 
 class TestCase extends Orchestra
 {
+    use RefreshDatabase;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -32,7 +34,8 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            ServiceProvider::class,
+            \Roelofr\SimplePayments\Providers\ServiceProvider::class,
+            \Roelofr\SimplePayments\Tests\Fixtures\Providers\TestServiceProvider::class,
         ];
     }
 }

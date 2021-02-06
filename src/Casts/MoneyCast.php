@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Roelofr\SimplePayments\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Support\Arr;
+use Money\Currency;
+use Money\Money;
+use RuntimeException;
 
 class MoneyCast implements CastsAttributes
 {
@@ -19,7 +23,24 @@ class MoneyCast implements CastsAttributes
      */
     public function get($model, $key, $value, $attributes)
     {
-        return json_decode($value, true);
+        if ($value === null) {
+            return null;
+        }
+
+        if (! is_string($value)) {
+            throw new RuntimeException("Failed to cast attribute [{$key}] to a Money object.");
+        }
+
+        $value = json_decode($value, true, 8, JSON_THROW_ON_ERROR);
+
+        if (! is_array($value) || ! Arr::has($value, ['amount', 'currency'])) {
+            throw new RuntimeException("Failed to cast attribute [{$key}] to a Money object.");
+        }
+
+        return new Money(
+            Arr::get($value, 'amount'),
+            new Currency(Arr::get($value, 'currency')),
+        );
     }
 
     /**

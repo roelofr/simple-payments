@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Roelofr\SimplePayments\Models;
 
 use Money\Money;
+use Roelofr\SimplePayments\Contracts\PaymentCost as PaymentCostContract;
 
-class PaymentCost
+class PaymentCost implements PaymentCostContract
 {
     public Money $fixed;
 
@@ -18,13 +19,32 @@ class PaymentCost
         $this->flexbile = $flexbile;
     }
 
-    /**
-     * Determine the cost to pay this invoice.
-     * @param Invoice|Invoicable $cost
-     * @return void
-     */
-    public function compute(Invoice $cost)
+    public function getFixedPrice(): Money
     {
-        # code...
+        return $this->fixed;
+    }
+
+    public function getFlexiblePrice(): float
+    {
+        return $this->flexible;
+    }
+
+    public function calculatePrice(Money $price): Money
+    {
+        $paymentCost = new Money(0, $price->getCurrency());
+
+        $paymentCost->add($this->getFixedPrice());
+
+        $paymentCost->add($price->multiply($this->getFlexiblePrice()));
+
+        return $paymentCost;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'fixed' => $this->fixed,
+            'flexible' => $this->flexible,
+        ];
     }
 }

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Roelofr\SimplePayments\Contracts;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Collection;
-
 interface Invoicable
 {
-    public function getInvoiceLines(): Collection;
-
-    public function invoice(): BelongsTo;
+    /**
+     * Returns the lines on the invoice.
+     * @return array<\Roelofr\SimplePayments\Models\InvoiceLine>
+     */
+    public function getInvoiceLines(): array;
 }

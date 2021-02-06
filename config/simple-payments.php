@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /**
      * The default provider of your application, which is used for all invoices
@@ -10,7 +12,7 @@ return [
      *
      * Choose from: null, dummy
      */
-    'default-provider' => env('PAYMENTS_DEFAULT_PROVIDER', 'null'),
+    'default-provider' => env('PAYMENTS_DEFAULT_PROVIDER', 'dummy'),
 
     /**
      * Default currency to use, as ISO-code
@@ -49,6 +51,6 @@ return [
         'dummy' => [
             'cost-fixed' => '0.25 EUR',
             'cost-flexible' => 0.00,
-        ]
-    ]
+        ],
+    ],
 ];

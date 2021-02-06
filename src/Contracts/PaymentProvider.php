@@ -4,51 +4,22 @@ declare(strict_types=1);
 
 namespace Roelofr\SimplePayments\Contracts;
 
-use Illuminate\Support\Collection;
-use Roelofr\SimplePayments\Exceptions\DuplicateInvoiceException;
-use Roelofr\SimplePayments\Exceptions\InvoiceStateException;
+use Money\Money;
 use Roelofr\SimplePayments\Models\Invoice;
 
 interface PaymentProvider
 {
     /**
-     *
-     * @param Invoice|Invoicable $invoiceOrInvoicable
-     * @return Roelofr\SimplePayments\Contracts\Collection
+     * @param Money $value
+     * @return array<PaymentMethod>
      */
-    public function getPaymentMethods($invoiceOrInvoicable): Collection;
+    public function getPaymentMethods(Money $value): array;
 
-    /**
-     * Creates an invoice for the given invoicable model, auto-assigns the `invoice` property.
-     * @param Invoicable $invoicable
-     * @return Invoice
-     * @throws DuplicateInvoiceException if $invoicable already has a pending invoice.
-     */
-    public function createInvoice(Invoicable $invoicable): Invoice;
+    public function startPayment(Invoice $invoice, PaymentMethod $method): NextAction;
 
-    /**
-     * Triggers an invoice update, which will result in an API call.
-     * @param Invoice $invoice
-     * @return Invoice
-     * @throws InvoiceNotFoundException if $invoice is not known to this provider
-     */
-    public function updateInvoice(Invoice $invoice): Invoice;
+    public function update(Invoice $invoice): void;
 
-    /**
-     * Marks the given invoice as paid.
-     * @param Invoice $invoice
-     * @return Invoice
-     * @throws InvoiceStateException If $invoice cannot be marked as paid right now.
-     * @throws InvoiceNotFoundException if $invoice is not known to this provider
-     */
-    public function markInvoicePaid(Invoice $invoice): Invoice;
+    public function markPaid(Invoice $invoice): bool;
 
-    /**
-     * Marks an invoice as voided, requiring no payment anymore.
-     * @param Invoice $invoice
-     * @return Invoice
-     * @throws InvoiceStateException If $invoice cannot be marked as void right now.
-     * @throws InvoiceNotFoundException if $invoice is not known to this provider
-     */
-    public function voidInvoice(Invoice $invoice): Invoice;
+    public function markVoid(Invoice $invoice): bool;
 }

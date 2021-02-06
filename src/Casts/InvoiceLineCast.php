@@ -1,15 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Roelofr\SimplePayments\Casts;
 
-use InvalidArgument;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use Money\Currency;
+use Money\Money;
 use Roelofr\SimplePayments\Models\InvoiceLine;
 
-class InvoiceLineCollectionCast implements CastsAttributes
+class InvoiceLineCast implements CastsAttributes
 {
+    public function arrayToInvoiceLine(array $data): InvoiceLine
+    {
+        // Check data
+        if (! Arr::has($data, ['name', 'description', 'price', 'count'])) {
+            throw new InvalidArgumentException("Data is missing one or more required keys");
+        }
+
+        // Map result as far as possible
+        $result = (new InvoiceLine())
+            ->setName(Arr::get($data, 'name'))
+            ->setCount(Arr::get($data, 'count'))
+            ->setDescription(Arr::get($data, 'description'));
+
+        // Add price
+        if (Arr::has($data, ['price.amount', 'price.currency'])) {
+            $result->setPrice(new Money(
+                Arr::get($data, 'price.amount'),
+                new Currency(Arr::get($data, 'price.currency')),
+            ));
+        }
+
+        // Lock resource and return it
+        return $result->lock();
+    }
+
     /**
      * Cast the given value.
      *
@@ -30,11 +58,11 @@ class InvoiceLineCollectionCast implements CastsAttributes
         $value ??= [];
 
         // Prep a collection
-        $result = new Collection();
+        $result = [];
 
         // Iterate
-        foreach ($value as $row) {
-            $result->push(InvoiceLine::fromJson($row));
+        foreach ($value as $rowData) {
+            $result[] = $this->arrayToInvoiceLine($rowData);
         }
 
         // Return result
@@ -53,16 +81,18 @@ class InvoiceLineCollectionCast implements CastsAttributes
     public function set($model, $key, $value, $attributes)
     {
         // Always assume some value
-        $value ??= new Collection();
+        $value ??= [];
 
         // Must be a collection
-        if (!$value instanceof Collection) {
+        if (! is_iterable($value)) {
             throw new InvalidArgumentException("Values of {$key} are not castable to invoice lines");
         }
 
         // Must be exclusively filled with InvoiceLine models
-        if ($value->filter(fn ($row) => $row instanceof InvoiceLine)->count() !== $value->count()) {
-            throw new InvalidArgumentException("Values of {$key} does not exclusively contain InvoiceLine models");
+        foreach ($value as $items) {
+            if (! $items instanceof InvoiceLine) {
+                throw new InvalidArgumentException("Values of {$key} does not exclusively contain InvoiceLine models.");
+            }
         }
 
         // Encode as JSON

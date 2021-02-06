@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Roelofr\SimplePayments\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use InvalidArgumentException;
 use LogicException;
 use MyCLabs\Enum\Enum;
 
@@ -12,12 +15,13 @@ final class EnumCast implements CastsAttributes
 
     public function __construct(string $enumClass)
     {
-        if (!is_a($enumClass, Enum::class, true)) {
+        if (! is_a($enumClass, Enum::class, true)) {
             throw new LogicException("Invalid enum target [{$enumClass}] specified.");
         }
 
         $this->enumClass = $enumClass;
     }
+
     /**
      * Cast the given value.
      *
@@ -49,6 +53,23 @@ final class EnumCast implements CastsAttributes
      */
     public function set($model, $key, $value, $attributes)
     {
-        return $value;
+        // Null is always valid, and so is a valid instance.
+        if ($value === null || is_a($value, $this->enumClass)) {
+            return optional($value)->getValue();
+        }
+
+        // Allow valid enums if they're not an enum instance
+        if ($this->enumClass::isValid($value)) {
+            return $value;
+        }
+
+        // oh no
+        throw new InvalidArgumentException(sprintf(
+            'Expected value of %s to be of type %s (%s), got %s instead',
+            $key,
+            class_basename($this->enumClass),
+            $this->enumClass,
+            is_object($value) ? get_class($value) : gettype($value)
+        ));
     }
 }
