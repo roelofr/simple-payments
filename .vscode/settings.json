@@ -2,6 +2,9 @@
     "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
 
     "files.associations": {
-        ".php_cs.dist": "php"
+        ".php_cs.dist": "php",
+        ".stub.php": "php"
     },
+
+    "css.lint.unknownAtRules": "ignore",
 }

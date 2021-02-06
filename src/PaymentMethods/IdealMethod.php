@@ -27,7 +27,7 @@ class IdealMethod extends AbstractMethod
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [
-            'banks' => $this->banks
+            'banks' => $this->banks,
         ]);
     }
 }
